@@ -11,6 +11,7 @@ export function App() {
   const [Msg, setMsg] = useState("");
   const [isError, setError] = useState(false);
 
+  //Add item
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -59,6 +60,7 @@ export function App() {
     }
   };
 
+  //Load items
   const fetchMedicines = async () => {
     setLoading(true)
     let { data: medicines, error } = await supabase
@@ -74,6 +76,19 @@ export function App() {
     }
   }
 
+  //Delete items
+  const handleClickDelete = async (id) => {
+    const { error } = await supabase
+        .from('medicines')
+        .delete()
+        .eq('id', id)
+        
+        if(error)return
+
+        fetchMedicines()
+  }
+
+  //Load items when the page is open
   useEffect(() => {
     fetchMedicines()
   },[])
@@ -104,6 +119,8 @@ export function App() {
                   time = {medicine.time}
                   schedules = {medicine.schedules}
                   observations = {medicine.observations}
+                  id={medicine.id}
+                  handleClickDelete={handleClickDelete}
                 />
               ))
             }

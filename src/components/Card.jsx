@@ -1,9 +1,13 @@
+import { ModalDelete } from "./Delete"
+
 export const Card = ({
     name,
     discomfort,
     time,
     schedules,
-    observations
+    observations,
+    id,
+    handleClickDelete
 }) => {
     return (
         <div className="collapse collapse-arrow bg-base-200">
@@ -32,6 +36,9 @@ export const Card = ({
                         </article>
                     )
                 }
+                <article className="w-full flex justify-end">
+                    <ModalDelete name={name} id={id} handleClickDelete={handleClickDelete}/>
+                </article>
             </div>
         </div>
     )

@@ -1,16 +1,13 @@
-import { useState } from "preact/hooks";
-import { supabase } from "../api/supabase";
-
 export const Modal = ({Msg, isError,  handleSubmit}) => {
   return (
     <>
       <button
         className="btn btn-neutral text-xl font-medium"
-        onClick={() => document.getElementById("my_modal_3").showModal()}
+        onClick={() => document.getElementById("my_modal_add").showModal()}
       >
         Añadir
       </button>
-      <dialog id="my_modal_3" className="modal">
+      <dialog id="my_modal_add" className="modal">
         <div className="modal-box">
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
