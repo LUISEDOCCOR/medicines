@@ -11,8 +11,7 @@ export function App() {
   const [Msg, setMsg] = useState("");
   const [isError, setError] = useState(false);
 
-  //Add item
-  const handleSubmit = async (e) => {
+  const getDataSubmit = (e) =>{
     e.preventDefault();
 
     const formData = new FormData(e.target);
@@ -22,6 +21,14 @@ export function App() {
     const time = formData.get("time");
     const schedules = formData.get("schedules");
     const observation = formData.get("observations");
+
+    return {name, discomfort, time, schedules, observation}
+  }
+
+  //Add item
+  const handleSubmit = async (e) => {
+
+    const {name, discomfort, time, schedules, observation} = getDataSubmit(e)
 
     if (name && discomfort && time && schedules) {
       const { data, error } = await supabase
@@ -88,6 +95,32 @@ export function App() {
         fetchMedicines()
   }
 
+  //Update item
+  const handleSubmitUpdate = async (id, e) => {
+    const {name, discomfort, time, schedules, observation} = getDataSubmit(e)
+    if (name && discomfort && time && schedules){
+      const { data, error } = await supabase
+      .from('medicines')
+      .update({ 
+        "name" : name, 
+        "discomfort" : discomfort, 
+        "time" : time , 
+        "schedules" : schedules, 
+        "observations" : observation 
+    })
+      .eq('id', id)
+      .select()
+      
+      if(error){
+        return
+      }
+
+      fetchMedicines()
+
+    
+    }   
+  }
+
   //Load items when the page is open
   useEffect(() => {
     fetchMedicines()
@@ -104,12 +137,13 @@ export function App() {
         Loading ? (
           <span className="loading loading-ball loading-lg"></span>
         ) : (
-          <article className="grid grid-cols-1 gap-6 mt-8 mb-6">
-            <Modal  
+         <>
+           <Modal  
               handleSubmit={handleSubmit} 
               isError={isError}
               Msg={Msg}
             />
+          <article className="grid gap-6 mt-8 mb-6 grid-cols-1 xl:grid-cols-4">
             {
               Medicines.map((medicine) => (
                 <Card
@@ -121,10 +155,12 @@ export function App() {
                   observations = {medicine.observations}
                   id={medicine.id}
                   handleClickDelete={handleClickDelete}
+                  handleClickUpdate={handleSubmitUpdate}
                 />
               ))
             }
           </article>
+         </>
         )
       }
     </main>

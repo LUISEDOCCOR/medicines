@@ -2,7 +2,7 @@ export const Modal = ({Msg, isError,  handleSubmit}) => {
   return (
     <>
       <button
-        className="btn btn-neutral text-xl font-medium"
+        className="btn btn-neutral text-xl font-medium w-full mt-6 xl:w-72"
         onClick={() => document.getElementById("my_modal_add").showModal()}
       >
         Añadir

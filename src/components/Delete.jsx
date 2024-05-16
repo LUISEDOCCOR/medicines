@@ -1,6 +1,4 @@
 import { useState } from "preact/hooks"
-import { supabase } from "../api/supabase"
-
 export const ModalDelete = ({id, name, handleClickDelete}) => {
     const [isClick, setClick] = useState(false)
 
@@ -12,7 +10,7 @@ export const ModalDelete = ({id, name, handleClickDelete}) => {
     return (
         <>
             <button 
-                className="btn btn-error btn-sm" 
+                className="btn btn-error btn-sm flex justify-center items-center" 
                 onClick={()=>document.getElementById(`my_modal_delete_${id}`).showModal()}
             >
                 <svg 
@@ -36,7 +34,7 @@ export const ModalDelete = ({id, name, handleClickDelete}) => {
                 <p className="py-4">
                     {
                         isClick ? "Borraste este medicamento"
-                        : "Estás a punto de borrar este medicamento"
+                        : ( <span>Estas a punto de <strong>borrar</strong> este medicamento</span> )
                     } 
                 </p>
                 <div className="modal-action">
